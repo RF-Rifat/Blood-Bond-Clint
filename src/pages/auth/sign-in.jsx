@@ -13,14 +13,13 @@ import toast from "react-hot-toast";
 export function SignIn() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const userLocation = location.state || "/";
-  const { login, signWithGooglePop } =
-    useContext(AuthProvider);
+  const { login, signWithGooglePop } = useContext(AuthProvider);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const email = event.target.email.value;
-    const password = event.target.password.value;
 
     console.log(email, password);
     if (password.length < 6) {
@@ -147,6 +146,7 @@ export function SignIn() {
             <Input
               type="password"
               size="lg"
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="********"
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{

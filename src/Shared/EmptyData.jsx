@@ -18,7 +18,7 @@ const EmptyData = () => {
                   No product data available.
                 </p>
                 <p className="text-accent-content text-center">
-                  You can Access this route aft.
+                  You can Access this route after login.
                 </p>
               </td>
             </tr>
