@@ -7,10 +7,11 @@ import {
   RectangleStackIcon,
   HandRaisedIcon,
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Notifications, Tables } from "@/pages/dashboard";
+import { Home, Profile, Tables } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
 import PrivateRoute from "./PrivateRoute";
 import DonorReq from "@/pages/dashboard/DonorReq";
+import Fund from "@/pages/dashboard/Fund";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -38,15 +39,15 @@ export const routes = [
       },
       {
         icon: <TableCellsIcon {...icon} />,
-        name: "Donor list",
+        name: "User list",
         path: "/tables",
         element: <Tables />,
       },
       {
         icon: <InformationCircleIcon {...icon} />,
-        name: "notifications",
-        path: "/notifications",
-        element: <Notifications />,
+        name: "Fund Collection",
+        path: "/fund",
+        element: <Fund/>,
       },
       {
         icon: <HandRaisedIcon {...icon} />,

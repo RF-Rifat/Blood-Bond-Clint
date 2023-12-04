@@ -25,7 +25,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "@/Shared/Spinner";
 import EmptyData from "@/Shared/EmptyData";
-const apiUrl = "http://localhost:5000";
+const apiUrl = "https://blood-bond-server-nine.vercel.app";
 import { upazilas } from "@/data/upazilas-data";
 import { districts } from "@/data/district-data";
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
@@ -84,7 +84,7 @@ export function Profile() {
 
     try {
       const response = await axios.patch(
-        `http://localhost:5000/user/${filteredData._id}`,
+        `https://blood-bond-server-nine.vercel.app/user/${filteredData._id}`,
         updatedUser
       );
       console.log("User updated successfully:", response.data);

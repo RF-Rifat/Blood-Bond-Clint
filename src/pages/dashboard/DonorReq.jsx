@@ -38,7 +38,7 @@ const DonorReq = () => {
     try {
       // Make a POST request to the backend
       const response = await axios.post(
-        "http://localhost:5000/bloodDonation",
+        "https://blood-bond-server-nine.vercel.app/bloodDonation",
         formData
       );
       console.log("Form submitted successfully:", response.data);

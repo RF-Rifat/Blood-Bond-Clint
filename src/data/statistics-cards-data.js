@@ -9,7 +9,7 @@ export const statisticsCardsData = [
     color: "gray",
     icon: UsersIcon,
     title: "Total User",
-    value: "53",
+    value: "4",
     footer: {
       color: "text-green-500",
       value: "+55%",
@@ -20,7 +20,7 @@ export const statisticsCardsData = [
     color: "gray",
     icon: UsersIcon,
     title: "Total Donor ",
-    value: "2,300",
+    value: "6",
     footer: {
       color: "text-green-500",
       value: "pending 3",
@@ -31,7 +31,7 @@ export const statisticsCardsData = [
     color: "gray",
     icon: UserPlusIcon,
     title: "Total Request",
-    value: "3,462",
+    value: "1",
     footer: {
       color: "text-red-500",
       value: "pending 3",
@@ -42,10 +42,10 @@ export const statisticsCardsData = [
     color: "gray",
     icon: ChartBarIcon,
     title: "Foun",
-    value: "$103,430",
+    value: "$103",
     footer: {
       color: "text-green-500",
-      value: "+5%",
+      value: "5",
       label: "than yesterday",
     },
   },

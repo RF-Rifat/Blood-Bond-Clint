@@ -32,7 +32,7 @@ export function SignUp() {
   const [upazila, setUpazila] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const serverURL = "http://localhost:5000";
+  const serverURL = "https://blood-bond-server-nine.vercel.app";
   const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
   const handleRegister = async (e) => {
     e.preventDefault();

@@ -18,7 +18,7 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-const apiUrl = "http://localhost:5000";
+const apiUrl = "https://blood-bond-server-nine.vercel.app";
 
 const TABS = [
   {

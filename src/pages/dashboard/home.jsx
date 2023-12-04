@@ -22,7 +22,7 @@ import { statisticsCardsData } from "@/data";
 import axios from "axios";
 import Spinner from "@/Shared/Spinner";
 import EmptyData from "@/Shared/EmptyData";
-const apiUrl = "http://localhost:5000";
+const apiUrl = "https://blood-bond-server-nine.vercel.app";
 
 const TABLE_HEAD = [
   "Facility Name",
