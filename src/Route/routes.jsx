@@ -22,18 +22,18 @@ export const routes = [
     layout: "dashboard",
     pages: [
       {
-        icon: <HomeIcon {...icon} />,
-        name: "Home",
-        path: "/home",
-        element: <Home />,
-      },
-      {
         icon: <UserCircleIcon {...icon} />,
         name: "profile",
         path: "/profile",
+        element: <Profile />,
+      },
+      {
+        icon: <HomeIcon {...icon} />,
+        name: "Home",
+        path: "/home",
         element: (
           <PrivateRoute>
-            <Profile />
+            <Home />
           </PrivateRoute>
         ),
       },
@@ -47,7 +47,7 @@ export const routes = [
         icon: <InformationCircleIcon {...icon} />,
         name: "Fund Collection",
         path: "/fund",
-        element: <Fund/>,
+        element: <Fund />,
       },
       {
         icon: <HandRaisedIcon {...icon} />,

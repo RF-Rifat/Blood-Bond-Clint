@@ -42,7 +42,7 @@ export const statisticsCardsData = [
     color: "gray",
     icon: ChartBarIcon,
     title: "Foun",
-    value: "$103",
+    value: "$104",
     footer: {
       color: "text-green-500",
       value: "5",

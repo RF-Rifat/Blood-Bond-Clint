@@ -18,7 +18,7 @@ const EmptyData = () => {
                   No product data available.
                 </p>
                 <p className="text-accent-content text-center">
-                  You can add new Product data to display in this Page.
+                  You can Access this route aft.
                 </p>
               </td>
             </tr>
