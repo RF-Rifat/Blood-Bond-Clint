@@ -5,9 +5,12 @@ import {
   InformationCircleIcon,
   ServerStackIcon,
   RectangleStackIcon,
+  HandRaisedIcon,
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
+import { Home, Profile, Notifications, Tables } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
+import PrivateRoute from "./PrivateRoute";
+import DonorReq from "@/pages/dashboard/DonorReq";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -19,7 +22,7 @@ export const routes = [
     pages: [
       {
         icon: <HomeIcon {...icon} />,
-        name: "dashboard",
+        name: "Home",
         path: "/home",
         element: <Home />,
       },
@@ -27,11 +30,15 @@ export const routes = [
         icon: <UserCircleIcon {...icon} />,
         name: "profile",
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         icon: <TableCellsIcon {...icon} />,
-        name: "tables",
+        name: "Donor list",
         path: "/tables",
         element: <Tables />,
       },
@@ -40,6 +47,12 @@ export const routes = [
         name: "notifications",
         path: "/notifications",
         element: <Notifications />,
+      },
+      {
+        icon: <HandRaisedIcon {...icon} />,
+        name: "Donor Request",
+        path: "/donorList",
+        element: <DonorReq />,
       },
     ],
   },

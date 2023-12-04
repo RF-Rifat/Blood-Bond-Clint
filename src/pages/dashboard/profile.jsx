@@ -1,16 +1,17 @@
 import {
   Card,
   CardBody,
-  CardHeader,
-  CardFooter,
   Avatar,
   Typography,
   Tabs,
   TabsHeader,
   Tab,
-  Switch,
   Tooltip,
   Button,
+  Input,
+  Select,
+  Checkbox,
+  Option,
 } from "@material-tailwind/react";
 import {
   HomeIcon,
@@ -18,22 +19,91 @@ import {
   Cog6ToothIcon,
   PencilIcon,
 } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
-import { ProfileInfoCard, MessageCard } from "@/widgets/cards";
-import { platformSettingsData, conversationsData, projectsData } from "@/data";
+import { ProfileInfoCard } from "@/widgets/cards";
+import { AuthProvider } from "../auth/Provider";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import Spinner from "@/Shared/Spinner";
+import EmptyData from "@/Shared/EmptyData";
+const apiUrl = "http://localhost:5000";
+import { upazilas } from "@/data/upazilas-data";
+import { districts } from "@/data/district-data";
+const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 export function Profile() {
+  const [userEmail, setEmail] = useState("");
+  const [userName, setName] = useState("");
+  const [userAvatar, setAvatar] = useState("");
+  const [userBloodGroup, setBloodGroup] = useState("");
+  const [userDistrict, setDistrict] = useState("");
+  const [userUpazila, setUpazila] = useState("");
+  const { user } = useContext(AuthProvider);
+  const { email } = user || {};
+  const [loading, setLoading] = useState(true);
+
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${apiUrl}/user`)
+      .then((response) => {
+        console.log("Data fetched successfully:", response.data);
+        setUserData(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <Spinner></Spinner>;
+  }
+
+  const filteredData = userData.filter((item) => item.email === email);
+
+  if (!filteredData || filteredData.length === 0) {
+    return <EmptyData></EmptyData>;
+  }
+
+  const { _id, name, avatar, bloodGroup, district, upazila, password } =
+    filteredData[0];
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const updatedUser = {
+      email,
+      name: userName,
+      avatar: userAvatar,
+      bloodGroup: userBloodGroup,
+      district: userDistrict,
+      upazila: userUpazila,
+      password,
+    };
+
+    try {
+      const response = await axios.patch(
+        `http://localhost:5000/user/${filteredData._id}`,
+        updatedUser
+      );
+      console.log("User updated successfully:", response.data);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+
   return (
     <>
       <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url('/img/background-image.png')] bg-cover	bg-center">
         <div className="absolute inset-0 h-full w-full bg-gray-900/75" />
       </div>
-      <Card className="mx-3 -mt-16 mb-6 lg:mx-4 border border-blue-gray-100">
+      <Card className="mx-3 -mt-40 mb-6 lg:mx-4 border border-blue-gray-100">
         <CardBody className="p-4">
           <div className="mb-10 flex items-center justify-between flex-wrap gap-6">
             <div className="flex items-center gap-6">
               <Avatar
-                src="/img/bruce-mars.jpeg"
+                src={avatar}
                 alt="bruce-mars"
                 size="xl"
                 variant="rounded"
@@ -47,7 +117,7 @@ export function Profile() {
                   variant="small"
                   className="font-normal text-blue-gray-600"
                 >
-                  CEO / Co-Founder
+                  New User / Blood Bond
                 </Typography>
               </div>
             </div>
@@ -70,42 +140,14 @@ export function Profile() {
               </Tabs>
             </div>
           </div>
-          <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 xl:grid-cols-3">
-            <div>
-              <Typography variant="h6" color="blue-gray" className="mb-3">
-                Platform Settings
-              </Typography>
-              <div className="flex flex-col gap-12">
-                {platformSettingsData.map(({ title, options }) => (
-                  <div key={title}>
-                    <Typography className="mb-4 block text-xs font-semibold uppercase text-blue-gray-500">
-                      {title}
-                    </Typography>
-                    <div className="flex flex-col gap-6">
-                      {options.map(({ checked, label }) => (
-                        <Switch
-                          key={label}
-                          id={label}
-                          label={label}
-                          defaultChecked={checked}
-                          labelProps={{
-                            className: "text-sm font-normal text-blue-gray-500",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2">
             <ProfileInfoCard
               title="Profile Information"
-              description="Hi, I'm Alec Thompson, Decisions: If you can't decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
+              description={`Hi, I'm ${name}  Alec Thompson, Decisions: If you can't decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term .`}
               details={{
-                "first name": "Alec M. Thompson",
-                mobile: "(44) 123 1234 123",
-                email: "alecthompson@mail.com",
-                location: "USA",
+                "first name": `${name}`,
+                "Blood-Group": `${bloodGroup}`,
+                location: `UpaZila- ${upazila}, District- ${district}`,
                 social: (
                   <div className="flex items-center gap-4">
                     <i className="fa-brands fa-facebook text-blue-700" />
@@ -120,96 +162,184 @@ export function Profile() {
                 </Tooltip>
               }
             />
-            <div>
-              <Typography variant="h6" color="blue-gray" className="mb-3">
-                Platform Settings
-              </Typography>
-              <ul className="flex flex-col gap-6">
-                {conversationsData.map((props) => (
-                  <MessageCard
-                    key={props.name}
-                    {...props}
-                    action={
-                      <Button variant="text" size="sm">
-                        reply
-                      </Button>
-                    }
-                  />
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="px-4 pb-4">
-            <Typography variant="h6" color="blue-gray" className="mb-2">
-              Projects
-            </Typography>
-            <Typography
-              variant="small"
-              className="font-normal text-blue-gray-500"
-            >
-              Architects design houses
-            </Typography>
-            <div className="mt-6 grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-4">
-              {projectsData.map(
-                ({ img, title, description, tag, route, members }) => (
-                  <Card key={title} color="transparent" shadow={false}>
-                    <CardHeader
-                      floated={false}
-                      color="gray"
-                      className="mx-0 mt-0 mb-4 h-64 xl:h-40"
+
+            {/* profile form */}
+
+            <div className="w-full max-w-full px-3 shrink-0 md:flex-0">
+              <div className="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                <div className="border-black/12.5 rounded-t-2xl border-b-0 border-solid p-6 pb-0">
+                  <div className="flex items-center">
+                    <p className="mb-0 dark:text-white/80">Edit Profile</p>
+                    <Button
+                      color="blue"
+                      buttonType="filled"
+                      size="regular"
+                      rounded={false}
+                      block={false}
+                      iconOnly={false}
+                      ripple="light"
+                      className="inline-block px-8 py-2 mb-4 ml-auto font-bold leading-normal text-center text-white align-middle transition-all ease-in"
                     >
-                      <img
-                        src={img}
-                        alt={title}
-                        className="h-full w-full object-cover"
-                      />
-                    </CardHeader>
-                    <CardBody className="py-0 px-1">
+                      Settings
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex-auto p-6">
+                  <p className="leading-normal uppercase dark:text-white dark:opacity-60 text-sm">
+                    User Information
+                  </p>
+                  <form
+                    className="w-full grid md:grid-cols-2 gap-4"
+                    onSubmit={(e) => handleUpdate(e)}
+                  >
+                    <div className="mb-1 flex flex-col gap-4">
                       <Typography
                         variant="small"
-                        className="font-normal text-blue-gray-500"
-                      >
-                        {tag}
-                      </Typography>
-                      <Typography
-                        variant="h5"
                         color="blue-gray"
-                        className="mt-1 mb-2"
+                        className="-mb-3 font-medium"
                       >
-                        {title}
+                        Your email
                       </Typography>
+                      <Input
+                        size="lg"
+                        placeholder={email}
+                        value={email}
+                        disabled
+                        onChange={(e) => setEmail(e.target.value)}
+                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                        labelProps={{
+                          className: "before:content-none after:content-none",
+                        }}
+                      />
+                    </div>
+
+                    <div className="mb-1 flex flex-col gap-4">
                       <Typography
                         variant="small"
-                        className="font-normal text-blue-gray-500"
+                        color="blue-gray"
+                        className="-mb-3 font-medium"
                       >
-                        {description}
+                        Your name
                       </Typography>
-                    </CardBody>
-                    <CardFooter className="mt-6 flex items-center justify-between py-0 px-1">
-                      <Link to={route}>
-                        <Button variant="outlined" size="sm">
-                          view project
-                        </Button>
-                      </Link>
-                      <div>
-                        {members.map(({ img, name }, key) => (
-                          <Tooltip key={name} content={name}>
-                            <Avatar
-                              src={img}
-                              alt={name}
-                              size="xs"
-                              variant="circular"
-                              className={`cursor-pointer border-2 border-white ${
-                                key === 0 ? "" : "-ml-2.5"
-                              }`}
-                            />
-                          </Tooltip>
+                      <Input
+                        required
+                        size="lg"
+                        value={userName}
+                        placeholder={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                        labelProps={{
+                          className: "before:content-none after:content-none",
+                        }}
+                      />
+                    </div>
+
+                    <div className="mb-1 flex flex-col gap-4">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="-mb-3 font-medium"
+                      >
+                        Avatar
+                      </Typography>
+                      <Input
+                        required
+                        size="lg"
+                        placeholder={avatar}
+                        value={userAvatar}
+                        onChange={(e) => setAvatar(e.target.value)}
+                        className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                        labelProps={{
+                          className: "before:content-none after:content-none",
+                        }}
+                      />
+                    </div>
+
+                    <div className="mb-1 flex flex-col gap-4">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="-mb-3 font-medium"
+                      >
+                        Blood Group
+                      </Typography>
+                      <Select
+                        label={bloodGroup}
+                        value={userBloodGroup}
+                        animate={{
+                          mount: { y: 0 },
+                          unmount: { y: 25 },
+                        }}
+                        onChange={(selectedValue) =>
+                          setBloodGroup(selectedValue)
+                        }
+                      >
+                        {bloodGroups.map((group) => (
+                          <Option key={group} value={group}>
+                            {group}
+                          </Option>
                         ))}
-                      </div>
-                    </CardFooter>
-                  </Card>
-                )
-              )}
+                      </Select>
+                    </div>
+
+                    <div className="mb-1 flex flex-col gap-4">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="-mb-3 font-medium"
+                      >
+                        District
+                      </Typography>
+                      <Select
+                        label={district}
+                        animate={{
+                          mount: { y: 0 },
+                          unmount: { y: 25 },
+                        }}
+                        value={userDistrict}
+                        onChange={(selectedValue) => setDistrict(selectedValue)}
+                      >
+                        {districts.map((d) => (
+                          <Option key={d} value={d}>
+                            {d}
+                          </Option>
+                        ))}
+                      </Select>
+                    </div>
+
+                    <div className="mb-1 flex flex-col gap-4">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="-mb-3 font-medium"
+                      >
+                        Upazila
+                      </Typography>
+                      <Select
+                        label={upazila}
+                        animate={{
+                          mount: { y: 0 },
+                          unmount: { y: 25 },
+                        }}
+                        value={userUpazila}
+                        onChange={(selectedValue) => setUpazila(selectedValue)}
+                      >
+                        {upazilas.map((u) => (
+                          <Option key={u} value={u}>
+                            {u}
+                          </Option>
+                        ))}
+                      </Select>
+                    </div>
+
+                    <div className="col-span-2">
+                      <Button type="submit" className="mt-6" fullWidth>
+                        Update Profile
+                      </Button>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </CardBody>

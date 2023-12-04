@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { Link, NavLink } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
-  Avatar,
   Button,
   IconButton,
   Typography,
@@ -27,9 +26,10 @@ export function Sidenav({ brandImg, brandName, routes }) {
       <div
         className={`relative`}
       >
-        <Link to="/" className="py-6 px-8 text-center">
+        <Link to="/" className="py-6 px-8 text-center grid grid-flow-col place-items-center">
+          <img className="h-12" src={brandImg} alt="brand image" />
           <Typography
-            variant="h6"
+            variant="h4"
             color={sidenavType === "dark" ? "white" : "blue-gray"}
           >
             {brandName}
@@ -97,7 +97,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
 
 Sidenav.defaultProps = {
   brandImg: "/img/logo-ct.png",
-  brandName: "Material Tailwind React",
+  brandName: "Blood Bond",
 };
 
 Sidenav.propTypes = {

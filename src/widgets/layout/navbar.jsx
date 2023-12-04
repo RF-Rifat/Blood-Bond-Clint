@@ -11,6 +11,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export function Navbar({ brandName, routes, action }) {
+
   const [openNav, setOpenNav] = React.useState(false);
 
   React.useEffect(() => {
@@ -83,14 +84,14 @@ export function Navbar({ brandName, routes, action }) {
 }
 
 Navbar.defaultProps = {
-  brandName: "Material Tailwind React",
+  brandName: "Blood Bond",
   action: (
     <a
-      href="https://www.creative-tim.com/product/material-tailwind-dashboard-react"
+      href="https://www.facebook.com/rfrifat6344"
       target="_blank"
     >
       <Button variant="gradient" size="sm" fullWidth>
-        free download
+        FB Profile
       </Button>
     </a>
   ),
