@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const CreditCardForm = () => {
+const Fund = () => {
   const [showBackCard, setShowBackCard] = useState(false);
 
   const toggleBackCard = () => {
@@ -17,7 +17,6 @@ const CreditCardForm = () => {
 
   return (
     <>
-      {/* component */}
       <style>
         {`
           .crediCard.seeBack {
@@ -94,4 +93,4 @@ const CreditCardForm = () => {
   );
 };
 
-export default CreditCardForm;
+export default Fund;

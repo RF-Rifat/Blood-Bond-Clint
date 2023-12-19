@@ -1,14 +1,18 @@
 import {
-  Card,
   Input,
   Checkbox,
   Button,
   Typography,
+  Spinner,
 } from "@material-tailwind/react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthProvider } from "./Provider";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+import EmptyData from "@/Shared/EmptyData";
+import useFetchData from "@/data/Users";
+const apiUrl = "https://blood-bond-server-nine.vercel.app/user";
 
 export function SignIn() {
   const navigate = useNavigate();
@@ -16,17 +20,30 @@ export function SignIn() {
   const [password, setPassword] = useState("");
   const { login, signWithGooglePop } = useContext(AuthProvider);
 
+  // const { data: allUser, loading } = useFetchData(apiUrl);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log(email, password);
     if (password.length < 6) {
       toast.error("Password must be at least 6 characters");
       return;
     }
     login(email, password)
-      .then((result) => {
-        setSuccess("Your Email is successfully logIn");
+      .then(async (result) => {
+        toast.success("Your Email is successfully logIn");
+        try {
+          const response = await axios.put(
+            `https://blood-bond-server-nine.vercel.app/user/update-status/${email}`,
+            {
+
+              status: true,
+            }
+          );
+          console.log("Update Status Response:", response.data);
+        } catch (error) {
+          console.error("Error updating user status:", error.message);
+        }
         navigate("/");
         toast.custom((t) => (
           <div
@@ -58,7 +75,7 @@ export function SignIn() {
       })
       .catch((error) => {
         toast.error("Your LogIn is Invalid");
-        console.error(error.message);
+        console.error(error);
       });
   };
 
@@ -96,7 +113,7 @@ export function SignIn() {
       })
       .catch((error) => {
         toast.error("Failed");
-        console.error(error.message);
+        console.error(error);
       });
   };
   return (
@@ -271,7 +288,7 @@ export function SignIn() {
             xmlns="http://www.w3.org/2000/svg"
             width="auto"
             height="auto"
-            class="w-full"
+            className="w-full"
             alt="https://undraw.co/illustrations"
             title="https://undraw.co/illustrations"
             viewBox="0 0 524.67004 531.39694"

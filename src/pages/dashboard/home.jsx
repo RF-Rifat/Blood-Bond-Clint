@@ -43,7 +43,6 @@ export function Home() {
     axios
       .get(`${apiUrl}/user`)
       .then((response) => {
-        console.log("Data fetched successfully:", response.data);
         setUserData(response.data);
         setLoading(false);
       })
@@ -59,7 +58,6 @@ export function Home() {
         params: { page: currentPage, pageSize: 10 },
       })
       .then((response) => {
-        console.log("Data fetched successfully:", response.data);
         setBloodBagData(response.data.data);
         setTotalPages(response.data.totalPages);
         setLoading(false);
@@ -70,7 +68,6 @@ export function Home() {
       });
   }, [currentPage]);
 
-  console.log(bloodBagData);
   return (
     <div className="mt-12">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">

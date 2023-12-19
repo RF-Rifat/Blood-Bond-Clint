@@ -45,7 +45,7 @@ const Provider = ({ children }) => {
     return signInWithPopup(auth, gitHubProvider);
   };
 
-  const logOut = () => {
+  const logOut = async () => {
     setLoading(true);
     return signOut(auth);
   };

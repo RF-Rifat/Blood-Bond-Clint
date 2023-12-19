@@ -10,8 +10,8 @@ import {
   Button,
   Input,
   Select,
-  Checkbox,
   Option,
+  Badge,
 } from "@material-tailwind/react";
 import {
   HomeIcon,
@@ -28,6 +28,8 @@ import EmptyData from "@/Shared/EmptyData";
 const apiUrl = "https://blood-bond-server-nine.vercel.app";
 import { upazilas } from "@/data/upazilas-data";
 import { districts } from "@/data/district-data";
+import { UserContext } from "../auth/UserProvider";
+
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 export function Profile() {
@@ -39,36 +41,14 @@ export function Profile() {
   const [userUpazila, setUpazila] = useState("");
   const { user } = useContext(AuthProvider);
   const { email } = user || {};
-  const [loading, setLoading] = useState(true);
+  const filteredUser = useContext(UserContext);
 
-  const [userData, setUserData] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get(`${apiUrl}/user`)
-      .then((response) => {
-        console.log("Data fetched successfully:", response.data);
-        setUserData(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error.message);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return <Spinner></Spinner>;
-  }
-
-  const filteredData = userData.filter((item) => item.email === email);
-
-  if (!filteredData || filteredData.length === 0) {
+  if (filteredUser === undefined) {
     return <EmptyData></EmptyData>;
   }
 
   const { _id, name, avatar, bloodGroup, district, upazila, password } =
-    filteredData[0];
+    filteredUser || {};
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -81,10 +61,9 @@ export function Profile() {
       upazila: userUpazila,
       password,
     };
-
     try {
-      const response = await axios.patch(
-        `https://blood-bond-server-nine.vercel.app/user/${filteredData._id}`,
+      const response = await axios.put(
+        `https://blood-bond-server-nine.vercel.app/user/${_id}`,
         updatedUser
       );
       console.log("User updated successfully:", response.data);
@@ -102,13 +81,15 @@ export function Profile() {
         <CardBody className="p-4">
           <div className="mb-10 flex items-center justify-between flex-wrap gap-6">
             <div className="flex items-center gap-6">
-              <Avatar
-                src={avatar}
-                alt="bruce-mars"
-                size="xl"
-                variant="rounded"
-                className="rounded-lg shadow-lg shadow-blue-gray-500/40"
-              />
+              <Badge color={user ? "green" : "brown"}>
+                <Avatar
+                  src={avatar}
+                  alt="bruce-mars"
+                  size="xl"
+                  variant="rounded"
+                  className="rounded-lg shadow-lg shadow-blue-gray-500/40"
+                />
+              </Badge>
               <div>
                 <Typography variant="h5" color="blue-gray" className="mb-1">
                   Richard Davis
@@ -171,13 +152,9 @@ export function Profile() {
                   <div className="flex items-center">
                     <p className="mb-0 dark:text-white/80">Edit Profile</p>
                     <Button
-                      color="blue"
-                      buttonType="filled"
-                      size="regular"
-                      rounded={false}
-                      block={false}
-                      iconOnly={false}
-                      ripple="light"
+                      size="md"
+                      rounded="false"
+                      block="false"
                       className="inline-block px-8 py-2 mb-4 ml-auto font-bold leading-normal text-center text-white align-middle transition-all ease-in"
                     >
                       Settings

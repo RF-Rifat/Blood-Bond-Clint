@@ -17,7 +17,8 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthProvider } from "../auth/Provider";
 const apiUrl = "https://blood-bond-server-nine.vercel.app";
 
 const TABS = [
@@ -38,6 +39,7 @@ const TABS = [
 const TABLE_HEAD = ["Member", "Location", "Status", "Blood Group", "Action"];
 
 export function Tables() {
+  const { user } = useContext(AuthProvider);
   const [usersData, setUsersData] = useState([]);
 
   useEffect(() => {
@@ -115,7 +117,16 @@ export function Tables() {
           <tbody>
             {usersData.map(
               (
-                { _id, avatar, name, bloodGroup, district, upazila, email },
+                {
+                  _id,
+                  avatar,
+                  name,
+                  bloodGroup,
+                  district,
+                  upazila,
+                  email,
+                  status,
+                },
                 index
               ) => {
                 const isLast = index === usersData.length - 1;
@@ -174,8 +185,8 @@ export function Tables() {
                         <Chip
                           variant="ghost"
                           size="sm"
-                          value={upazila ? "online" : "offline"}
-                          color={upazila ? "green" : "blue-gray"}
+                          value={status ? "online" : "offline"}
+                          color={status ? "green" : "blue-gray"}
                         />
                       </div>
                     </td>

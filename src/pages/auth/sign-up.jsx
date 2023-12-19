@@ -66,6 +66,7 @@ export function SignUp() {
       district,
       upazila,
       password,
+      status: true,
     };
 
     try {

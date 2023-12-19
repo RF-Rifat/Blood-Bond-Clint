@@ -31,11 +31,7 @@ export const routes = [
         icon: <HomeIcon {...icon} />,
         name: "Home",
         path: "/home",
-        element: (
-          <PrivateRoute>
-            <Home />
-          </PrivateRoute>
-        ),
+        element: <Home />,
       },
       {
         icon: <TableCellsIcon {...icon} />,

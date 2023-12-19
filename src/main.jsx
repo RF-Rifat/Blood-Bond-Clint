@@ -6,18 +6,21 @@ import { ThemeProvider } from "@material-tailwind/react";
 import { MaterialTailwindControllerProvider } from "@/context";
 import "../public/css/tailwind.css";
 import Provider from "./pages/auth/Provider";
+import UserProvider from "./pages/auth/UserProvider";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider>
-        <ThemeProvider>
-          <MaterialTailwindControllerProvider>
-            {" "}
-            <App />
-          </MaterialTailwindControllerProvider>
-        </ThemeProvider>
+        <UserProvider>
+          <ThemeProvider>
+            <MaterialTailwindControllerProvider>
+              {" "}
+              <App />
+            </MaterialTailwindControllerProvider>
+          </ThemeProvider>
+        </UserProvider>
       </Provider>
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
