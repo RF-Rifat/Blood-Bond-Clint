@@ -1,95 +1,109 @@
-import { useState } from "react";
+import React from "react";
 
 const Fund = () => {
-  const [showBackCard, setShowBackCard] = useState(false);
-
-  const toggleBackCard = () => {
-    setShowBackCard(!showBackCard);
-  };
-
-  const hideBackCard = () => {
-    setShowBackCard(false);
-  };
-
-  const showBack = () => {
-    setShowBackCard(true);
-  };
-
   return (
-    <>
-      <style>
-        {`
-          .crediCard.seeBack {
-            transform: rotateY(-180deg);
-          }
-        `}
-      </style>
-      <main className="flex min-h-screen flex-col items-center justify-between p-6 lg:p-24">
-        <form className="bg-white w-full max-w-3xl mx-auto px-4 lg:px-6 py-8 shadow-md rounded-md flex flex-col lg:flex-row">
-          <div className="w-full lg:w-1/2 lg:pr-8 lg:border-r-2 lg:border-slate-300">
-            <div className="mb-4">
-              <label className="text-neutral-800 font-bold text-sm mb-2 block">
-                Card number:
-              </label>
+    <div className="min-w-screen min-h-screen bg-gray-200 flex items-center justify-center px-5 pb-10 pt-16">
+      <div
+        className="w-full mx-auto rounded-lg bg-white shadow-lg p-5 text-gray-700"
+        style={{ maxWidth: "600px" }}
+      >
+        <div className="w-full pt-1 pb-5">
+          <div className="bg-indigo-500 text-white overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg flex justify-center items-center">
+            <i className="mdi mdi-credit-card-outline text-3xl"></i>
+          </div>
+        </div>
+        <div className="mb-10">
+          <h1 className="text-center font-bold text-xl uppercase">
+            Secure payment info
+          </h1>
+        </div>
+        <div className="mb-3 flex -mx-2">
+          <div className="px-2">
+            <label htmlFor="type1" className="flex items-center cursor-pointer">
               <input
-                type="text"
-                onClick={hideBackCard}
-                className="flex h-10 w-full rounded-md border-2 bg-background px-4 py-1.5 text-lg ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border-purple-600 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 undefined"
-                maxLength="19"
-                placeholder="XXXX XXXX XXXX XXXX"
-                value="1232 1312 3123 1231"
+                type="radio"
+                className="form-radio h-5 w-5 text-indigo-500"
+                name="type"
+                id="type1"
+                checked
               />
-            </div>
-            {/* ... (other input fields) */}
+              <img
+                src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png"
+                className="h-8 ml-3"
+                alt="Card Type 1"
+              />
+            </label>
           </div>
-          <div className="w-full lg:w-1/2 lg:pl-8">
-            <div
-              className="w-full max-w-sm h-56"
-              style={{ perspective: "1000px" }}
-            >
-              <div
-                id="creditCard"
-                className={`relative crediCard cursor-pointer transition-transform duration-500 ${
-                  showBackCard ? "seeBack" : ""
-                }`}
-                style={{ transformStyle: "preserve-3d" }}
-                onClick={toggleBackCard}
-              >
-                <div
-                  className="w-full h-56 m-auto rounded-xl text-white shadow-2xl absolute"
-                  style={{ backfaceVisibility: "hidden" }}
-                >
-                  <img
-                    src="https://i.ibb.co/LPLv5MD/Payment-Card-01.jpg"
-                    className="relative object-cover w-full h-full rounded-xl"
-                    alt="Card Front"
-                  />
-                  <div className="w-full px-8 absolute top-8">
-                    {/* ... (front card content) */}
-                  </div>
-                </div>
-                <div
-                  className="w-full h-56 m-auto rounded-xl text-white shadow-2xl absolute"
-                  style={{
-                    backfaceVisibility: "hidden",
-                    transform: "rotateY(180deg)",
-                  }}
-                >
-                  <img
-                    src="https://i.ibb.co/LPLv5MD/Payment-Card-01.jpg"
-                    className="relative object-cover w-full h-full rounded-xl"
-                    alt="Card Back"
-                  />
-                  <div className="w-full absolute top-8">
-                    {/* ... (back card content) */}
-                  </div>
-                </div>
-              </div>
+          <div className="px-2">
+            <label htmlFor="type2" className="flex items-center cursor-pointer">
+              <input
+                type="radio"
+                className="form-radio h-5 w-5 text-indigo-500"
+                name="type"
+                id="type2"
+              />
+              <img
+                src="https://www.sketchappsources.com/resources/source-image/PayPalCard.png"
+                className="h-8 ml-3"
+                alt="Card Type 2"
+              />
+            </label>
+          </div>
+        </div>
+        <div className="mb-3">
+          <label className="font-bold text-sm mb-2 ml-1">Name on card</label>
+          <div>
+            <input
+              className="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
+              placeholder="John Smith"
+              type="text"
+            />
+          </div>
+        </div>
+        <div className="mb-3">
+          <label className="font-bold text-sm mb-2 ml-1">Card number</label>
+          <div>
+            <input
+              className="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
+              placeholder="0000 0000 0000 0000"
+              type="text"
+            />
+          </div>
+        </div>
+        <div className="mb-3 -mx-2 flex items-end">
+          <div className="px-2 w-1/2">
+            <label className="font-bold text-sm mb-2 ml-1">
+              Expiration date
+            </label>
+            <div>
+              <select className="form-select w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer">
+                {/* ...options */}
+              </select>
             </div>
           </div>
-        </form>
-      </main>
-    </>
+          <div className="px-2 w-1/2">
+            <select className="form-select w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer">
+              {/* ...options */}
+            </select>
+          </div>
+        </div>
+        <div className="mb-10">
+          <label className="font-bold text-sm mb-2 ml-1">Security code</label>
+          <div>
+            <input
+              className="w-32 px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
+              placeholder="000"
+              type="text"
+            />
+          </div>
+        </div>
+        <div>
+          <button className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">
+            <i className="mdi mdi-lock-outline mr-1"></i> PAY NOW
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 
